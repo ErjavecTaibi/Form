@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulario de Voz</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>Formulario de Voz</h1>
+        <p>Completa los datos y graba la frase indicada.</p>
+      </header>
+
+      <form id="voice-form" class="card">
+        <section class="section">
+          <h2>Datos básicos</h2>
+
+          <label class="field">
+            Edad
+            <input type="number" name="edad" min="7" max="99" required />
+          </label>
+
+          <label class="field">
+            Sexo
+            <select name="sexo" required>
+              <option value="" selected disabled>Elegí una opción</option>
+              <option value="femenino">Femenino</option>
+              <option value="masculino">Masculino</option>
+              <option value="no_binario">No binario</option>
+              <option value="prefiero_no_decir">Prefiero no decir</option>
+            </select>
+          </label>
+
+          <label class="field">
+            Tipo de voz (pupitre)
+            <select name="tipo_voz" required>
+              <option value="" selected disabled>Elegí una opción</option>
+              <option value="soprano">Soprano</option>
+              <option value="mezzo">Mezzo</option>
+              <option value="alto">Alto / Contralto</option>
+              <option value="tenor">Tenor</option>
+              <option value="baritono">Barítono</option>
+              <option value="bajo">Bajo</option>
+              <option value="no_se">No sé</option>
+            </select>
+          </label>
+
+          <label class="field">
+            Estilo principal
+            <select name="estilo" id="estilo" required>
+              <option value="" selected disabled>Elegí una opción</option>
+              <option value="pop">Pop</option>
+              <option value="rock">Rock</option>
+              <option value="clasico">Clásico</option>
+              <option value="jazz">Jazz</option>
+              <option value="folklore">Folklore</option>
+              <option value="gospel">Gospel</option>
+              <option value="urbano">Urbano</option>
+              <option value="otro">Otro</option>
+            </select>
+          </label>
+
+          <label class="field" id="estilo-otro-field" hidden>
+            Especificá el estilo
+            <input type="text" name="estilo_otro" placeholder="Ej: tango" />
+          </label>
+        </section>
+
+        <section class="section">
+          <h2>Grabación</h2>
+          <p class="phrase">
+            Frase a leer:
+            <strong>“me encanta cantar”</strong>
+          </p>
+
+          <div class="recorder">
+            <button type="button" id="record-btn" class="primary">
+              Grabar
+            </button>
+            <button type="button" id="stop-btn" class="secondary" disabled>
+              Detener
+            </button>
+            <span id="timer" class="timer">00:00</span>
+          </div>
+
+          <audio id="playback" controls class="player" hidden></audio>
+          <input type="hidden" name="audio_ready" id="audio_ready" />
+          <p id="recording-hint" class="hint">
+            Permití el micrófono cuando el navegador lo pida.
+          </p>
+        </section>
+
+        <section class="section">
+          <button type="submit" class="primary full">
+            Enviar
+          </button>
+          <p id="form-status" class="status" aria-live="polite"></p>
+        </section>
+      </form>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
