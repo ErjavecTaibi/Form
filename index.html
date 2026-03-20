@@ -9,77 +9,116 @@
   <body>
     <main class="container">
       <header class="header">
-        <h1>Formulario de Voz</h1>
-        <p>Completa los datos y graba la frase indicada.</p>
+        <div class="header-top">
+          <h1 data-i18n="title">Formulario de Voz</h1>
+          <div class="lang-switch" aria-label="Idioma">
+            <button type="button" class="lang-btn" data-lang="es" aria-pressed="true">
+              🇪🇸
+              <span>ES</span>
+            </button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">
+              🇬🇧
+              <span>EN</span>
+            </button>
+            <button type="button" class="lang-btn" data-lang="it" aria-pressed="false">
+              🇮🇹
+              <span>IT</span>
+            </button>
+            <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false">
+              🇫🇷
+              <span>FR</span>
+            </button>
+          </div>
+        </div>
+        <p data-i18n="subtitle">Completa los datos y graba la frase indicada.</p>
       </header>
 
       <form id="voice-form" class="card">
         <section class="section">
-          <h2>Datos básicos</h2>
+          <h2 data-i18n="basic_title">Datos básicos</h2>
 
           <label class="field">
-            Edad
+            <span data-i18n="age_label">Edad</span>
             <input type="number" name="edad" min="7" max="99" required />
           </label>
 
           <label class="field">
-            Sexo
+            <span data-i18n="sex_label">Sexo</span>
             <select name="sexo" required>
-              <option value="" selected disabled>Elegí una opción</option>
-              <option value="femenino">Femenino</option>
-              <option value="masculino">Masculino</option>
-              <option value="no_binario">No binario</option>
-              <option value="prefiero_no_decir">Prefiero no decir</option>
+              <option value="" selected disabled data-i18n="choose_option">
+                Elegí una opción
+              </option>
+              <option value="femenino" data-i18n="sex_female">Femenino</option>
+              <option value="masculino" data-i18n="sex_male">Masculino</option>
+              <option value="no_binario" data-i18n="sex_nb">No binario</option>
+              <option value="prefiero_no_decir" data-i18n="sex_no_say">
+                Prefiero no decir
+              </option>
             </select>
           </label>
 
           <label class="field">
-            Tipo de voz (pupitre)
+            <span data-i18n="voice_type_label">Tipo de voz (pupitre)</span>
             <select name="tipo_voz" required>
-              <option value="" selected disabled>Elegí una opción</option>
-              <option value="soprano">Soprano</option>
-              <option value="mezzo">Mezzo</option>
-              <option value="alto">Alto / Contralto</option>
-              <option value="tenor">Tenor</option>
-              <option value="baritono">Barítono</option>
-              <option value="bajo">Bajo</option>
-              <option value="no_se">No sé</option>
+              <option value="" selected disabled data-i18n="choose_option">
+                Elegí una opción
+              </option>
+              <option value="soprano" data-i18n="voice_soprano">Soprano</option>
+              <option value="mezzo" data-i18n="voice_mezzo">Mezzo</option>
+              <option value="alto" data-i18n="voice_alto">Alto / Contralto</option>
+              <option value="tenor" data-i18n="voice_tenor">Tenor</option>
+              <option value="baritono" data-i18n="voice_baritone">Barítono</option>
+              <option value="bajo" data-i18n="voice_bass">Bajo</option>
+              <option value="no_se" data-i18n="voice_unknown">No sé</option>
             </select>
           </label>
 
           <label class="field">
-            Estilo principal
+            <span data-i18n="style_label">Estilo principal</span>
             <select name="estilo" id="estilo" required>
-              <option value="" selected disabled>Elegí una opción</option>
-              <option value="pop">Pop</option>
-              <option value="rock">Rock</option>
-              <option value="clasico">Clásico</option>
-              <option value="jazz">Jazz</option>
-              <option value="folklore">Folklore</option>
-              <option value="gospel">Gospel</option>
-              <option value="urbano">Urbano</option>
-              <option value="otro">Otro</option>
+              <option value="" selected disabled data-i18n="choose_option">
+                Elegí una opción
+              </option>
+              <option value="pop" data-i18n="style_pop">Pop</option>
+              <option value="rock" data-i18n="style_rock">Rock</option>
+              <option value="clasico" data-i18n="style_classical">Clásico</option>
+              <option value="jazz" data-i18n="style_jazz">Jazz</option>
+              <option value="folklore" data-i18n="style_folk">Folklore</option>
+              <option value="gospel" data-i18n="style_gospel">Gospel</option>
+              <option value="urbano" data-i18n="style_urban">Urbano</option>
+              <option value="otro" data-i18n="style_other">Otro</option>
             </select>
           </label>
 
           <label class="field" id="estilo-otro-field" hidden>
-            Especificá el estilo
-            <input type="text" name="estilo_otro" placeholder="Ej: tango" />
+            <span data-i18n="style_other_label">Especificá el estilo</span>
+            <input
+              type="text"
+              name="estilo_otro"
+              placeholder="Ej: tango"
+              data-i18n-placeholder="style_other_placeholder"
+            />
           </label>
         </section>
 
         <section class="section">
-          <h2>Grabación</h2>
+          <h2 data-i18n="recording_title">Grabación</h2>
           <p class="phrase">
-            Frase a leer:
-            <strong>“me encanta cantar”</strong>
+            <span data-i18n="phrase_label">Frase a leer:</span>
+            <strong data-i18n="phrase_text">“me encanta cantar”</strong>
           </p>
 
           <div class="recorder">
-            <button type="button" id="record-btn" class="primary">
+            <button type="button" id="record-btn" class="primary" data-i18n="record_btn">
               Grabar
             </button>
-            <button type="button" id="stop-btn" class="secondary" disabled>
+            <button
+              type="button"
+              id="stop-btn"
+              class="secondary"
+              disabled
+              data-i18n="stop_btn"
+            >
               Detener
             </button>
             <span id="timer" class="timer">00:00</span>
@@ -87,13 +126,13 @@
 
           <audio id="playback" controls class="player" hidden></audio>
           <input type="hidden" name="audio_ready" id="audio_ready" />
-          <p id="recording-hint" class="hint">
+          <p id="recording-hint" class="hint" data-i18n="mic_hint">
             Permití el micrófono cuando el navegador lo pida.
           </p>
         </section>
 
         <section class="section">
-          <button type="submit" class="primary full">
+          <button type="submit" class="primary full" data-i18n="submit_btn">
             Enviar
           </button>
           <p id="form-status" class="status" aria-live="polite"></p>
