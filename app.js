@@ -8,9 +8,12 @@ const audioReadyInput = document.getElementById("audio_ready");
 const estiloSelect = document.getElementById("estilo");
 const estiloOtroField = document.getElementById("estilo-otro-field");
 const langButtons = document.querySelectorAll(".lang-btn");
+const apiBase = document.body.dataset.apiBase || "";
+const apiRoot = apiBase ? apiBase.replace(/\/+$/, "") : "";
 
 let mediaRecorder = null;
 let audioChunks = [];
+let recordedBlob = null;
 let timerInterval = null;
 let startTime = null;
 
@@ -54,6 +57,9 @@ const translations = {
     submit_btn: "Enviar",
     status_recording: "Grabando...",
     status_ready: "Grabación lista. Podés volver a grabar si querés.",
+    status_uploading: "Subiendo audio...",
+    status_upload_ok: "Audio guardado. ¡Gracias!",
+    status_upload_error: "Error al subir el audio. Probá de nuevo.",
     status_no_mic: "No se pudo acceder al micrófono. Revisá permisos.",
     status_no_support: "Tu navegador no soporta grabación de audio.",
     status_need_audio: "Falta grabar el audio antes de enviar.",
@@ -98,6 +104,9 @@ const translations = {
     submit_btn: "Submit",
     status_recording: "Recording...",
     status_ready: "Recording ready. You can re-record if you want.",
+    status_uploading: "Uploading audio...",
+    status_upload_ok: "Audio saved. Thank you!",
+    status_upload_error: "Upload failed. Please try again.",
     status_no_mic: "Could not access the microphone. Check permissions.",
     status_no_support: "Your browser does not support audio recording.",
     status_need_audio: "Please record audio before submitting.",
@@ -142,6 +151,9 @@ const translations = {
     submit_btn: "Invia",
     status_recording: "Registrazione in corso...",
     status_ready: "Registrazione pronta. Puoi registrare di nuovo.",
+    status_uploading: "Caricamento audio...",
+    status_upload_ok: "Audio salvato. Grazie!",
+    status_upload_error: "Errore di caricamento. Riprova.",
     status_no_mic: "Impossibile accedere al microfono. Controlla i permessi.",
     status_no_support: "Il tuo browser non supporta la registrazione audio.",
     status_need_audio: "Devi registrare l'audio prima di inviare.",
@@ -186,6 +198,9 @@ const translations = {
     submit_btn: "Envoyer",
     status_recording: "Enregistrement...",
     status_ready: "Enregistrement pret. Vous pouvez recommencer.",
+    status_uploading: "Televersement de l'audio...",
+    status_upload_ok: "Audio enregistre. Merci !",
+    status_upload_error: "Echec de l'envoi. Reessayez.",
     status_no_mic: "Impossible d'acceder au micro. Verifiez les permissions.",
     status_no_support: "Votre navigateur ne prend pas en charge l'enregistrement audio.",
     status_need_audio: "Veuillez enregistrer l'audio avant d'envoyer.",
@@ -249,6 +264,7 @@ const setStatus = (message, isError = false) => {
 
 const resetRecording = () => {
   audioChunks = [];
+  recordedBlob = null;
   playback.src = "";
   playback.hidden = true;
   audioReadyInput.value = "";
@@ -272,8 +288,8 @@ recordBtn.addEventListener("click", async () => {
     };
 
     mediaRecorder.onstop = () => {
-      const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-      const audioUrl = URL.createObjectURL(audioBlob);
+      recordedBlob = new Blob(audioChunks, { type: "audio/webm" });
+      const audioUrl = URL.createObjectURL(recordedBlob);
       playback.src = audioUrl;
       playback.hidden = false;
       audioReadyInput.value = "ok";
@@ -310,15 +326,34 @@ estiloSelect.addEventListener("change", () => {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (!audioReadyInput.value) {
+  if (!audioReadyInput.value || !recordedBlob) {
     setStatus(translations[currentLang].status_need_audio, true);
     return;
   }
 
   const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
-  console.log("Formulario listo:", data);
-  setStatus(translations[currentLang].status_thanks);
+  formData.append("audio", recordedBlob, "voice-sample.webm");
+  formData.append("phrase_text", translations[currentLang].phrase_text);
+
+  setStatus(translations[currentLang].status_uploading);
+
+  fetch(`${apiRoot}/api/upload`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("upload_failed");
+      return res.json();
+    })
+    .then((data) => {
+      console.log("Upload result:", data);
+      setStatus(translations[currentLang].status_upload_ok);
+      form.reset();
+      resetRecording();
+    })
+    .catch(() => {
+      setStatus(translations[currentLang].status_upload_error, true);
+    });
 });
 
 applyTranslations(currentLang);
