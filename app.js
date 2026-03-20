@@ -193,7 +193,7 @@ const translations = {
   },
 };
 
-let currentLang = "es";
+let currentLang = "en";
 
 const applyTranslations = (lang) => {
   const dict = translations[lang];
