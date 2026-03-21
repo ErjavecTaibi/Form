@@ -337,7 +337,8 @@ form.addEventListener("submit", (event) => {
 
   setStatus(translations[currentLang].status_uploading);
 
-  fetch(`${apiRoot}/api/upload`, {
+  const API_ROOT = "http://141.253.107.137:8787";
+  fetch(`${API_ROOT}/api/upload`, {
     method: "POST",
     body: formData,
   })
