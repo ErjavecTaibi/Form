@@ -337,7 +337,7 @@ form.addEventListener("submit", (event) => {
 
   setStatus(translations[currentLang].status_uploading);
 
-  const API_ROOT = "http://141.253.107.137:8787";
+  const API_ROOT = "https://flossy-unwidowed-norine.ngrok-free.dev";
   fetch(`${API_ROOT}/api/upload`, {
     method: "POST",
     body: formData,
