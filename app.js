@@ -8,8 +8,7 @@ const audioReadyInput = document.getElementById("audio_ready");
 const estiloSelect = document.getElementById("estilo");
 const estiloOtroField = document.getElementById("estilo-otro-field");
 const langButtons = document.querySelectorAll(".lang-btn");
-const apiBase = document.body.dataset.apiBase || "";
-const apiRoot = apiBase ? apiBase.replace(/\/+$/, "") : "";
+const apiRoot = "https://flossy-unwidowed-norine.ngrok-free.dev";
 
 let mediaRecorder = null;
 let audioChunks = [];
